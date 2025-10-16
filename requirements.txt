@@ -4,5 +4,6 @@ psycopg2-binary==2.9.9
 python-dotenv==1.0.1
 PyYAML==6.0.1
 rich==13.7.0
-dbt-core==1.7.8
-dbt-postgres==1.7.8
+dbt-core==1.8.3
+dbt-postgres==1.8.3
+dbt-sqlite==1.8.3
