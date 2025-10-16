@@ -7,3 +7,4 @@ notebook_code.py
 .env.local
 .env
 .DS_Store
+.venv/

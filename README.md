@@ -32,8 +32,9 @@ This lab aligns with **Weeks 2-7** of your course:
 6. [Understanding dbt Models](#-understanding-dbt-models)
 7. [Data Quality Testing Explained](#-data-quality-testing-explained)
 8. [Running the Lab](#-running-the-lab)
-9. [Deliverables & Grading](#-deliverables--grading)
-10. [Troubleshooting & FAQs](#-troubleshooting--faqs)
+9. [Working in GitHub Codespaces](#-working-in-github-codespaces)
+10. [Deliverables & Grading](#-deliverables--grading)
+11. [Troubleshooting & FAQs](#-troubleshooting--faqs)
 
 ---
 
@@ -754,7 +755,7 @@ python main_dbt.py
 ### Option 3: GitHub Codespaces (Zero-setup Cloud Environment)
 
 1. Open the repository in GitHub and click **Code → Create codespace on main**.
-2. The Codespace boots with the `.devcontainer` we ship, installing Python 3.11, Jupyter, dbt, and CLI helpers automatically.
+2. The Codespace boots with the `.devcontainer` we ship. It builds on the official Python devcontainer image, installs the required database client libraries, and provisions a project-specific virtual environment automatically.
 3. Once the machine is ready, start Jupyter with `jupyter lab main_plain_sql.ipynb` (or open the notebook directly in VS Code for the Web) and run cells as usual.
 4. To execute the Python runners instead, use the integrated terminal:
 
@@ -764,6 +765,44 @@ python main_dbt.py
    ```
 
 The Codespace keeps your `outputs/` directory in sync. Download artifacts (like the stakeholder report) from the left-hand file explorer when you are done.
+
+---
+
+## 🧑‍💻 Working in GitHub Codespaces
+
+Codespaces is the recommended way for students to run this lab with zero local setup. The repository ships with an updated `.devcontainer` definition that extends the official `mcr.microsoft.com/devcontainers/python:1-3.11-bullseye` image, installs the required database client libraries, and configures a `.venv/` virtual environment via `.devcontainer/setup.sh`. When the Codespace finishes booting that script has already installed the dependencies from `requirements.txt`, so you can open the notebooks or run `python main_plain_sql.py` / `python main_dbt.py` immediately with the interpreter at `.venv/bin/python`.
+
+> ℹ️ If you ever rebuild the Codespace, the setup script runs again automatically. You can also re-run it manually with `bash .devcontainer/setup.sh` if you install extra packages or need to repair the environment.
+
+### Recovering from earlier configuration errors
+
+Previous versions of the Codespaces configuration built directly from a minimal Python image. If a post-create step failed (for example, because `pip install` lost network access) the Codespace fell back to "recovery mode". Rebuilding after this update will pick up the new devcontainer image and provisioning script, eliminating that failure mode for students. If you still see a recovery prompt, choose **Rebuild Container**; the refreshed configuration will finish successfully.
+
+### Default behaviour (no PostgreSQL credentials)
+
+If you do **not** provide PostgreSQL credentials the runners will still work:
+
+- The CLI prompts (`Use PostgreSQL? (y/n)`) let you choose SQLite manually.
+- The dbt runner now tests the PostgreSQL connection first and automatically falls back to SQLite when the server is unreachable. This means Codespaces sessions without secrets will continue in SQLite without failing.
+
+### Supplying PostgreSQL credentials in Codespaces
+
+When the teaching team shares PostgreSQL accounts you have two easy options to provide them in Codespaces:
+
+1. **Copy the template**
+   ```bash
+   cp .env.example .env
+   ```
+   Fill in the `PGHOST`, `PGUSER`, `PGPASSWORD`, and related fields. The `.gitignore` file already excludes `.env`, so your credentials stay local to your Codespace.
+
+2. **Use Codespaces secrets** (recommended for persistent credentials)
+   - In the repository sidebar click **Code → Codespaces → Configure secrets**.
+   - Add secrets named `PGHOST`, `PGUSER`, `PGPASSWORD`, `PGDATABASE`, and (optionally) `DATABASE_URL` or `PGSSL`.
+   - Rebuild or restart your Codespace; the environment variables are injected automatically at login.
+
+Either approach also works for the optional identity fields (`STUDENT_FIRST`, etc.). After the variables are present you can re-run the pipeline and it will connect to PostgreSQL; if the connection fails for any reason the fallback logic still switches you to SQLite so students never get blocked.
+
+> ❗️ Never commit your `.env` file—keep sensitive credentials out of version control. Use the `.env.example` template as a reference instead.
 
 ---
 
