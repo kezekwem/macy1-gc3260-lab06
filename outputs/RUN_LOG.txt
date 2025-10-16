@@ -1,0 +1,18 @@
+
+[2025-10-15 21:08:01] STAGING TESTS
+{"name": "stg_orders_order_id_not_null", "severity": "error", "failures": 0, "failure_table": null}
+{"name": "stg_orders_order_id_unique", "severity": "error", "failures": 0, "failure_table": null}
+{"name": "stg_orders_status_accepted_values", "severity": "warn", "failures": 0, "failure_table": null}
+{"name": "stg_orders_restaurant_fk_relationships", "severity": "error", "failures": 1, "failure_table": "dq_failures__stg_orders_restaurant_fk_relationships"}
+{"name": "stg_orders_courier_fk_relationships", "severity": "error", "failures": 0, "failure_table": null}
+{"name": "stg_orders_delivery_minutes_nonnegative", "severity": "error", "failures": 0, "failure_table": null}
+
+[2025-10-15 21:08:02] MART TESTS
+{"name": "fct_deliveries_order_id_not_null", "severity": "error", "failures": 0, "failure_table": null}
+{"name": "fct_deliveries_order_id_unique", "severity": "error", "failures": 0, "failure_table": null}
+{"name": "fct_deliveries_restaurant_fk_dim", "severity": "error", "failures": 0, "failure_table": null}
+{"name": "fct_deliveries_courier_fk_dim", "severity": "error", "failures": 0, "failure_table": null}
+{"name": "dim_courier_vehicle_type_accepted_values", "severity": "error", "failures": 1, "failure_table": "dq_failures__dim_courier_vehicle_type_accepted_values"}
+
+[2025-10-15 21:08:03] CUSTOM TESTS
+{"name": "test_dropoff_status_logic", "severity": "error", "failures": 3, "failure_table": "dq_failures__test_dropoff_status_logic"}

@@ -1,0 +1,5 @@
+order_id,customer_id,restaurant_id,courier_id,order_ts,pickup_ts,dropoff_ts,status,payment_method,subtotal,delivery_fee,tip_amount,distance_km,delivery_minutes,on_time_flag
+2008,103,3,12.0,2025-10-04 08:30:00,,,delivered,card,12.0,3.0,2.0,1.0,,False
+2005,105,5,,2025-10-03 11:00:00,2025-10-03 11:15:00,2025-10-03 11:37:00,delivered,card,19.5,2.99,2.0,1.4,22.0,True
+2002,102,2,11.0,2025-10-01 12:05:00,2025-10-01 12:20:00,2025-10-01 13:20:00,delivered,card,28.0,3.99,5.0,7.0,60.0,False
+2001,101,1,10.0,2025-10-01 12:00:00,2025-10-01 12:10:00,2025-10-01 12:35:00,delivered,card,45.5,4.99,6.0,3.1,25.0,True
