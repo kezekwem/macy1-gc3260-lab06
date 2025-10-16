@@ -32,8 +32,9 @@ This lab aligns with **Weeks 2-7** of your course:
 6. [Understanding dbt Models](#-understanding-dbt-models)
 7. [Data Quality Testing Explained](#-data-quality-testing-explained)
 8. [Running the Lab](#-running-the-lab)
-9. [Deliverables & Grading](#-deliverables--grading)
-10. [Troubleshooting & FAQs](#-troubleshooting--faqs)
+9. [Working in GitHub Codespaces](#-working-in-github-codespaces)
+10. [Deliverables & Grading](#-deliverables--grading)
+11. [Troubleshooting & FAQs](#-troubleshooting--faqs)
 
 ---
 
@@ -764,6 +765,38 @@ python main_dbt.py
    ```
 
 The Codespace keeps your `outputs/` directory in sync. Download artifacts (like the stakeholder report) from the left-hand file explorer when you are done.
+
+---
+
+## 🧑‍💻 Working in GitHub Codespaces
+
+Codespaces is the recommended way for students to run this lab with zero local setup. The repository already includes a `.devcontainer` definition that installs Python, dbt (with both PostgreSQL and SQLite adapters), and the VS Code extensions you need. When the Codespace boots it automatically runs `pip install -r requirements.txt`, so you can open the notebooks or run `python main_plain_sql.py` / `python main_dbt.py` immediately.
+
+### Default behaviour (no PostgreSQL credentials)
+
+If you do **not** provide PostgreSQL credentials the runners will still work:
+
+- The CLI prompts (`Use PostgreSQL? (y/n)`) let you choose SQLite manually.
+- The dbt runner now tests the PostgreSQL connection first and automatically falls back to SQLite when the server is unreachable. This means Codespaces sessions without secrets will continue in SQLite without failing.
+
+### Supplying PostgreSQL credentials in Codespaces
+
+When the teaching team shares PostgreSQL accounts you have two easy options to provide them in Codespaces:
+
+1. **Copy the template**
+   ```bash
+   cp .env.example .env
+   ```
+   Fill in the `PGHOST`, `PGUSER`, `PGPASSWORD`, and related fields. The `.gitignore` file already excludes `.env`, so your credentials stay local to your Codespace.
+
+2. **Use Codespaces secrets** (recommended for persistent credentials)
+   - In the repository sidebar click **Code → Codespaces → Configure secrets**.
+   - Add secrets named `PGHOST`, `PGUSER`, `PGPASSWORD`, `PGDATABASE`, and (optionally) `DATABASE_URL` or `PGSSL`.
+   - Rebuild or restart your Codespace; the environment variables are injected automatically at login.
+
+Either approach also works for the optional identity fields (`STUDENT_FIRST`, etc.). After the variables are present you can re-run the pipeline and it will connect to PostgreSQL; if the connection fails for any reason the fallback logic still switches you to SQLite so students never get blocked.
+
+> ❗️ Never commit your `.env` file—keep sensitive credentials out of version control. Use the `.env.example` template as a reference instead.
 
 ---
 

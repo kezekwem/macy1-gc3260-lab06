@@ -13,6 +13,10 @@ macro-paths: ['macros']
 target-path: 'target'
 clean-targets: ['target', 'dbt_modules']
 
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: [dashdash_lab, dbt_utils]
+
 models:
   dashdash_lab:
     +materialized: view
