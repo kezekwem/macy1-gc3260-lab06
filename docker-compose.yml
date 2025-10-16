@@ -6,4 +6,4 @@ services:
       - .env
     volumes:
       - ./outputs:/app/outputs
-    command: python main.py
+    command: tail -f /dev/null

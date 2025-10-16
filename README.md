@@ -751,12 +751,19 @@ python main_plain_sql.py
 python main_dbt.py
 ```
 
-### Option 3: Using the Dispatcher
+### Option 3: GitHub Codespaces (Zero-setup Cloud Environment)
 
-```bash
-python main.py plain  # Run SQL pipeline
-python main.py dbt    # Run dbt pipeline
-```
+1. Open the repository in GitHub and click **Code → Create codespace on main**.
+2. The Codespace boots with the `.devcontainer` we ship, installing Python 3.11, Jupyter, dbt, and CLI helpers automatically.
+3. Once the machine is ready, start Jupyter with `jupyter lab main_plain_sql.ipynb` (or open the notebook directly in VS Code for the Web) and run cells as usual.
+4. To execute the Python runners instead, use the integrated terminal:
+
+   ```bash
+   python main_plain_sql.py   # Plain SQL path
+   python main_dbt.py         # dbt path
+   ```
+
+The Codespace keeps your `outputs/` directory in sync. Download artifacts (like the stakeholder report) from the left-hand file explorer when you are done.
 
 ---
 
@@ -1238,11 +1245,20 @@ The dbt folder mirrors the staging/mart/KPI/monitoring folders in `warehouse/`, 
 # Build
 docker build -t dashdash-lab .
 
-# Run once (uses values from .env)
-docker run --rm --env-file .env -v "$(pwd)/outputs:/app/outputs" dashdash-lab
+# Run a pipeline (override the default tail command)
+docker run --rm --env-file .env -v "$(pwd)/outputs:/app/outputs" dashdash-lab python main_plain_sql.py
+# or
+docker run --rm --env-file .env -v "$(pwd)/outputs:/app/outputs" dashdash-lab python main_dbt.py
 ```
 
-`docker-compose.yml` provides the same defaults but exposes the command for iterative runs.
+`docker-compose.yml` mounts the `outputs/` folder and keeps the container alive:
+
+```bash
+docker compose up -d
+docker compose exec app python main_plain_sql.py
+docker compose exec app python main_dbt.py
+docker compose down
+```
 
 ## 🧪 Tests
 Data quality checks are defined in YAML + SQL. Modify or extend them in

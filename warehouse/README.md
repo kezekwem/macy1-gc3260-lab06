@@ -12,7 +12,7 @@ warehouse/
 ```
 
 Each `.sql` file corresponds to a former notebook cell. You can iterate on SQL without
-modifying any Python – simply edit the files, save, and re-run `python main.py`
+modifying any Python – simply edit the files, save, and re-run `python main_plain_sql.py`
 (or the companion notebook) to rebuild the pipeline and collect results. When a
 query needs backend-specific syntax we provide an additional file with a
 `.sqlite.sql` suffix; the runner automatically picks it when you choose the
