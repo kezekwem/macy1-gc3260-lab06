@@ -1,0 +1,14 @@
+dashdash_lab:
+  outputs:
+    dev:
+      connect_timeout: 10
+      dbname: neondb
+      host: ep-jolly-salad-a8sw53aj-pooler.eastus2.azure.neon.tech
+      keepalives_idle: 0
+      password: npg_T2PJ5kdSwKDb
+      port: 5432
+      schema: public
+      threads: 4
+      type: postgres
+      user: neondb_owner
+  target: dev

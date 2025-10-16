@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: "Cleansed order records with SLA metrics."
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+      - name: restaurant_id
+        tests:
+          - relationships:
+              to: ref('stg_restaurants')
+              field: restaurant_id
+      - name: courier_id
+        tests:
+          - relationships:
+              to: ref('stg_couriers')
+              field: courier_id
+              where: "courier_id IS NOT NULL"
+      - name: status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['delivered', 'canceled', 'returned', 'unknown']
+      - name: delivery_minutes
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "delivery_minutes IS NULL OR delivery_minutes >= 0"
+      - name: dropoff_ts
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "(status = 'delivered' AND dropoff_ts IS NOT NULL) OR (status IN ('canceled','returned','unknown') AND dropoff_ts IS NULL)"

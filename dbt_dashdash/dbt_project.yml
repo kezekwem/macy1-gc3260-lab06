@@ -1,0 +1,26 @@
+name: 'dashdash_lab'
+version: '1.0.0'
+config-version: 2
+
+profile: 'dashdash_lab'
+
+model-paths: ['models']
+analysis-paths: ['analysis']
+test-paths: ['tests']
+seed-paths: ['seeds']
+macro-paths: ['macros']
+
+target-path: 'target'
+clean-targets: ['target', 'dbt_modules']
+
+models:
+  dashdash_lab:
+    +materialized: view
+    staging:
+      +schema: "{{ target.schema }}"
+    marts:
+      +schema: "{{ target.schema }}"
+    kpis:
+      +schema: "{{ target.schema }}"
+    monitoring:
+      +schema: "{{ target.schema }}"

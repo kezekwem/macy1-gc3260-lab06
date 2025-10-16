@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: dashdash
+    description: "Raw operational tables seeded by the Python pipeline."
+    database: "{{ target.database }}"
+    schema: "{{ target.schema }}"
+    tables:
+      - name: restaurants
+      - name: couriers
+      - name: customers
+      - name: orders

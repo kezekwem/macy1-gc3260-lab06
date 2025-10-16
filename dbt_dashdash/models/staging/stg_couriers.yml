@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: stg_couriers
+    description: "Standardised courier attributes."
+    columns:
+      - name: vehicle_type
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['bike', 'scooter', 'car']

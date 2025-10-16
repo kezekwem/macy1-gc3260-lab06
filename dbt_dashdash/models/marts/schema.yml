@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: dim_courier
+    description: "Courier dimension sourced from staging."
+    columns:
+      - name: vehicle_type
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['bike', 'scooter', 'car']
+
+  - name: fct_deliveries
+    description: "Fact view containing successfully delivered orders."
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+      - name: restaurant_id
+        tests:
+          - relationships:
+              to: ref('dim_restaurant')
+              field: restaurant_id
+      - name: courier_id
+        tests:
+          - relationships:
+              to: ref('dim_courier')
+              field: courier_id
+              where: "courier_id IS NOT NULL"
