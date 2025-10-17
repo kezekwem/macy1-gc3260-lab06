@@ -755,7 +755,7 @@ python main_dbt.py
 ### Option 3: GitHub Codespaces (Zero-setup Cloud Environment)
 
 1. Open the repository in GitHub and click **Code → Create codespace on main**.
-2. The Codespace boots with the `.devcontainer` we ship, installing Python 3.11, Jupyter, dbt, and CLI helpers automatically.
+2. The Codespace boots with the `.devcontainer` we ship. It builds on the official Python devcontainer image, installs the required database client libraries, and provisions a project-specific virtual environment automatically.
 3. Once the machine is ready, start Jupyter with `jupyter lab main_plain_sql.ipynb` (or open the notebook directly in VS Code for the Web) and run cells as usual.
 4. To execute the Python runners instead, use the integrated terminal:
 
@@ -770,7 +770,13 @@ The Codespace keeps your `outputs/` directory in sync. Download artifacts (like 
 
 ## 🧑‍💻 Working in GitHub Codespaces
 
-Codespaces is the recommended way for students to run this lab with zero local setup. The repository already includes a `.devcontainer` definition that installs Python, dbt (with both PostgreSQL and SQLite adapters), and the VS Code extensions you need. When the Codespace boots it automatically runs `pip install -r requirements.txt`, so you can open the notebooks or run `python main_plain_sql.py` / `python main_dbt.py` immediately.
+Codespaces is the recommended way for students to run this lab with zero local setup. The repository ships with an updated `.devcontainer` definition that extends the official `mcr.microsoft.com/devcontainers/python:1-3.11-bullseye` image, installs the required database client libraries, and configures a `.venv/` virtual environment via `.devcontainer/setup.sh`. When the Codespace finishes booting that script has already installed the dependencies from `requirements.txt`, so you can open the notebooks or run `python main_plain_sql.py` / `python main_dbt.py` immediately with the interpreter at `.venv/bin/python`.
+
+> ℹ️ If you ever rebuild the Codespace, the setup script runs again automatically. You can also re-run it manually with `bash .devcontainer/setup.sh` if you install extra packages or need to repair the environment.
+
+### Recovering from earlier configuration errors
+
+Previous versions of the Codespaces configuration built directly from a minimal Python image. If a post-create step failed (for example, because `pip install` lost network access) the Codespace fell back to "recovery mode". Rebuilding after this update will pick up the new devcontainer image and provisioning script, eliminating that failure mode for students. If you still see a recovery prompt, choose **Rebuild Container**; the refreshed configuration will finish successfully.
 
 ### Default behaviour (no PostgreSQL credentials)
 
